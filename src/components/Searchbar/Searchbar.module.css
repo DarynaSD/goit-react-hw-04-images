@@ -1,0 +1,74 @@
+
+.Searchbar {
+    width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        box-shadow: 0 10px 10px -5px rgba(46, 47, 66, 0.16);
+}
+
+
+.SearchForm {
+    text-align: center;
+}
+
+.inputWrapper,
+.SearchFormInput {
+    max-width: 280px;
+        height: 38px;
+}
+
+.inputWrapper {
+    position: relative;
+    width: max-content;
+    margin: 0 auto;
+}
+
+.SearchFormInput {
+    padding: 0 20px;
+    
+        background-color: #fff;
+        border: 0.5px solid #D1C8CD;
+        border-radius: 50px;
+    
+        box-shadow: 0px 2px 1px 0px rgba(49, 29, 40, 0.08), 0px 1px 1px 0px rgba(49, 29, 40, 0.16), 0px 1px 6px 0px rgba(49, 29, 40, 0.08), 0px 3px 5px 0px rgba(49, 29, 40, 0.16);
+}
+
+.SearchFormInput:is(:hover, :focus, :current, :focus-within) {
+    border: 0.5px solid #8E8D8D;
+}
+
+/* SEARCH BUTTON */
+.SearchFormButton {
+    position: absolute;
+        top: 2px;
+        bottom: 2px;
+        right: 3px;
+    
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+        width: 34px;
+        height: 34px;
+        background-color: var(--search-btn-color);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+    
+        transition: background-color 250ms, scale 250ms;
+}
+
+.SearchFormButton:is(:hover, :focus) {
+    background-color: var(--search-btn-hover-color);
+}
+
+.SearchFormButton:is(:hover, :focus) .SearchFormButtonLabel {
+    scale: 110%;
+}
+
+.SearchFormButtonLabel {
+width: 17px;
+height: 17px;
+background-image: url('../../icon/search-icon.svg');
+transition: scale 250ms;
+}
