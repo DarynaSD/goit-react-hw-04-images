@@ -23,39 +23,44 @@ const App = () => {
     try {
       setIsLoading(true);
       const data = await findImagesByQuery(searchQuery, page);
-      page === 1 ? setImages(data.hits) : setImages([...images, ...data.hits]);
+      page === 1 ?
+        setImages(data.hits)
+        : setImages((prev) => [...prev, ...data.hits]);
     } catch (error) {
-      setIsLoading(true);
-      setError(error.response.data);
+      setError(error.message);
+      console.log(error.message, error.responce);
     } finally {
       setIsLoading(false);
     }
-  }, [images, page, searchQuery]);
+  }, [searchQuery, page]);
 
-    useEffect(() => {
-      searchQuery && fetchPhotos();
-    }, [searchQuery, fetchPhotos]);
+
+  useEffect(() => {
+    searchQuery && fetchPhotos();
+  }, [fetchPhotos, searchQuery]);
+
 
   //////
-  const  handleSearchQuery = value => {
+  const handleSearchQuery = value => {
     setSearchQuery(value);
     setPage(1);
-    };
+  };
 
-   const HandleLoadMoreClick = () => {
-     setPage(page + 1);
-    };
+  const HandleLoadMoreClick = () => {
+    setPage(page + 1);
+  };
 
-   const toggleModal = () => {
-     setIsModalOpen(!isModalOpen);
-    }
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
-   const handleImgClick = (id) => {
-      const targetEl = images.find((one) => one.id === id)
-      setLargeImageURL(targetEl.largeImageURL);
-      toggleModal()
-    }
+  const handleImgClick = id => {
+    const targetEl = images.find(one => one.id === id);
+    setLargeImageURL(targetEl.largeImageURL);
+    toggleModal();
+  };
 
+  //render
   return (
     <div className={css.App}>
       {error && <h1>{error}</h1>}
@@ -90,107 +95,3 @@ const App = () => {
 };
 
 export default App;
-
-// class App extends Component {
-//   state = {
-//     page: 1,
-//     images: null,
-//     searchQuery: '',
-//     isLoading: false,
-//     error: '',
-//     isModalOpen: false,
-//     largeImageURL: '',
-//   };
-
-//   componentDidUpdate(prevProps, prevState) {
-//     if (
-//       this.state.page !== prevState.page ||
-//       this.state.searchQuery !== prevState.searchQuery
-//     ) {
-//       this.fetchPhotos(prevState);
-//     }
-//   }
-
-//   fetchPhotos = async prevState => {
-//     try {
-//       this.setState({ isLoading: true });
-
-//       const data = await findImagesByQuery(
-//         this.state.searchQuery,
-//         this.state.page
-//       );
-
-//       this.state.page === 1
-//         ? this.setState({ images: data.hits })
-//         : this.setState({ images: [...prevState.images, ...data.hits] });
-
-//       //console.log(data);
-//       // console.log(prevState.images)
-//       // console.log(this.state.images)
-//     } catch (error) {
-//       this.setState({ isLoading: true });
-//       this.setState({ error: error.response.data });
-//     } finally {
-//       this.setState({ isLoading: false });
-//     }
-//   };
-
-//   handleSearchQuery = value => {
-//     this.setState({ searchQuery: value, page: 1 });
-//   };
-
-//   HandleLoadMoreClick = () => {
-//     //let newPage = this.state.page + 1;
-//     this.setState(prev => ({ page: prev.page + 1 }));
-//   };
-
-//   toggleModal = () => {
-//     this.setState((prev) => ({ isModalOpen: !prev.isModalOpen }))
-//   }
-
-//   handleImgClick = (id) => {
-//     const targetEl = this.state.images.find((one) => one.id === id)
-
-//     this.setState({ largeImageURL: targetEl.largeImageURL })
-//     //console.log(targetEl)
-//     this.toggleModal()
-//     //console.log(this.state)
-//   }
-
-//   render() {
-//     const { error, isLoading, images, largeImageURL, isModalOpen } = this.state;
-//     return (
-//       <div className={css.App}>
-//         {error && <h1>{error}</h1>}
-
-//         <Searchbar submit={this.handleSearchQuery} />
-
-//         {images &&
-//           (!images.length ? (
-//             <h1>No data found</h1>
-//           ) : (
-//             <ImageGallery
-//               images={images}
-//               handleImgClick={this.handleImgClick}
-//               toggleModal={this.toggleModal}
-//             />
-//           ))}
-
-//         {images &&
-//           (!images.length ? null : images.length % 12 ? (
-//             <h1>End of results</h1>
-//           ) : (
-//             <LoadMoreButton HandleLoadMoreClick={this.HandleLoadMoreClick} />
-//           ))}
-
-//         {isLoading && <Loader />}
-
-//         {isModalOpen && (
-//           <Modal toggleModal={this.toggleModal} largeImageURL={largeImageURL} />
-//         )}
-//       </div>
-//     );
-//   }
-// }
-
-// export default App;
