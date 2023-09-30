@@ -47,7 +47,7 @@ const App = () => {
   };
 
   const HandleLoadMoreClick = () => {
-    setPage(page + 1);
+    setPage(prev => prev + 1);
   };
 
   const toggleModal = () => {
